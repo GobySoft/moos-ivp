@@ -268,14 +268,14 @@ SET(IVP_GUI_APPS
 # app_vzaicview      app_gzaicview
 )
 
-# lib_helmivp and every library it links
+# lib_helmivp and every library it links, and lib_geodaid for contacts
 SET(IVP_HELM_LIBS
   lib_helmivp        lib_behaviors       lib_behaviors-marine
   lib_behaviors-colregs                  lib_dep_behaviors
   lib_bhvutil        lib_ivpbuild        lib_ivpcore
   lib_ivpsolve       lib_logic           lib_geometry
   lib_contacts       lib_turngeo         lib_mbutil
-  lib_genutil        lib_gen_poly
+  lib_genutil        lib_gen_poly        lib_geodaid
 )
 
 # We also consider the below to be robot apps just in case needed
