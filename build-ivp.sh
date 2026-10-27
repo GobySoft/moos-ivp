@@ -15,6 +15,8 @@ BUILD_WITH_UTM="-DUSE_UTM=ON"
 # By default, all code is built
 BUILD_BOT_CODE_ONLY="OFF"
 BUILD_GUI_CODE="ON"
+BUILD_HELM_LIBS_ONLY="OFF"
+BUILD_SHARED_LIBS="OFF"
 FORCE_FULL_RASPI_BUILD=""
 
 #---------------------------------------------------------
@@ -38,6 +40,11 @@ for ARGI; do
 	echo "  --minrobot, -m                              "
 	echo "    Only build minimal robot apps             "
 	echo "    (Even smaller subset than with --nogui)   "
+	echo "  --helmlibs, -l                              "
+	echo "    Only build the helm libraries, no apps    "
+	echo "    (needs neither MOOS nor build-moos.sh)    "
+	echo "  --shared                                    "
+	echo "    Build shared libraries (with --helmlibs)  "
 	echo "  --minrobotx, -mx                            "
 	echo "    Override min-robot default on Raspbian    "
 	echo "  --clean, -c                                 "
@@ -68,6 +75,11 @@ for ARGI; do
     elif [ "${ARGI}" = "--minrobot" -o "${ARGI}" = "-m" ]; then
         BUILD_BOT_CODE_ONLY="ON"
 	BUILD_GUI_CODE="OFF"
+    elif [ "${ARGI}" = "--helmlibs" -o "${ARGI}" = "-l" ]; then
+        BUILD_HELM_LIBS_ONLY="ON"
+	BUILD_GUI_CODE="OFF"
+    elif [ "${ARGI}" = "--shared" ]; then
+        BUILD_SHARED_LIBS="ON"
     elif [ "${ARGI}" = "--minrobotx" -o "${ARGI}" = "-mx" ]; then
         FORCE_FULL_RASPI_BUILD="yes"
     else
@@ -85,7 +97,7 @@ done
 #          no explicit override given with -mx, CONFIRM first
 #-------------------------------------------------------------- 
 command -v raspi-config
-if [ "$?" = "0" -a "${BUILD_BOT_CODE_ONLY}" = "OFF" ]; then
+if [ "$?" = "0" -a "${BUILD_BOT_CODE_ONLY}" = "OFF" -a "${BUILD_HELM_LIBS_ONLY}" = "OFF" ]; then
     if [ ! "${FORCE_FULL_RASPI_BUILD}" = "yes" ]; then
 	echo "Pi OS detected without --minrobotx or -mx selected."
 	echo "[y] Continue with full build"
@@ -168,6 +180,8 @@ echo "BUILD_BOT_CODE_ONLY: ${BUILD_BOT_CODE_ONLY}   "
 cmake -DIVP_BUILD_GUI_CODE=${BUILD_GUI_CODE}               \
       -DFLTK_SKIP_FLUID=ON                                 \
       -DIVP_BUILD_BOT_CODE_ONLY=${BUILD_BOT_CODE_ONLY}     \
+      -DIVP_BUILD_HELM_LIBS_ONLY=${BUILD_HELM_LIBS_ONLY}   \
+      -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}             \
       -DIVP_LIB_DIRECTORY="${LIB_ABS_DIR}"                 \
       -DIVP_BIN_DIRECTORY="${BIN_ABS_DIR}"                 \
       -DMOOS_DIR="${MOOS_DIR}"                             \

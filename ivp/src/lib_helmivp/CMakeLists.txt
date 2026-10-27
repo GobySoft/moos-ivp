@@ -13,7 +13,6 @@ SET(SRC
   BFactoryStatic.cpp
   BFactoryDynamic.cpp
   BehaviorSpec.cpp
-  BehaviorReport.cpp
   SpecBuild.cpp
   PlatModelGenerator.cpp
   PMGen.cpp
@@ -30,7 +29,6 @@ SET(HEADERS
   BFactoryStatic.h
   BFactoryDynamic.h
   BehaviorSpec.h
-  BehaviorReport.h
   SpecBuild.h
   PlatModelGenerator.h
   PMGen.h

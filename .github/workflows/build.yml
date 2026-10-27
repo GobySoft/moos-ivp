@@ -53,3 +53,31 @@ jobs:
       working-directory: ./ivp/src_unit_tests/
       run: ./alltest.sh
 
+  helm-libs:
+    name: Helm libraries only (${{ matrix.libs }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        libs: [static, shared]
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install -y cmake build-essential
+
+    # No build-moos.sh: the helm libraries don't need MOOS
+    - name: Build
+      run: |
+        args=(--helmlibs)
+        if [ "${{ matrix.libs }}" = shared ]; then args+=(--shared); fi
+        # Fails the link of a shared library that leaves a dependency out
+        IVP_CMAKE_FLAGS=-DCMAKE_SHARED_LINKER_FLAGS=-Wl,--no-undefined ./build-ivp.sh "${args[@]}"
+
+    - name: Use from another project
+      run: |
+        cmake --install build/ivp --prefix "${RUNNER_TEMP}/ivp"
+        cmake -S .github/helm-libs-consumer -B "${RUNNER_TEMP}/consumer" -DCMAKE_PREFIX_PATH="${RUNNER_TEMP}/ivp"
+        cmake --build "${RUNNER_TEMP}/consumer"
+        "${RUNNER_TEMP}/consumer/helm_libs_consumer"

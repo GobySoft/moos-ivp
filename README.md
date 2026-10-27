@@ -10,6 +10,14 @@ To install MOOS-IvP from source, clone this repository and follow the setup, dep
 * [macOS](./README-OS-X.txt)
 * [Windows](./README-WINDOWS.txt)
 
+### Helm libraries only
+
+*This section was written by Claude.*
+
+To embed the IvP Helm in another project, `./build-ivp.sh --helmlibs` builds only `lib_helmivp` and the libraries it links (the behaviors, the IvP solver, and their utilities), with no apps. It needs only CMake and a C++ compiler: not MOOS, `build-moos.sh`, MOOSGeodesy, or the GUI libraries. Add `--shared` for shared libraries. The CMake options are `IVP_BUILD_HELM_LIBS_ONLY` and `BUILD_SHARED_LIBS`.
+
+After `cmake --install build/ivp --prefix <prefix>`, other projects use them with `find_package(IVP CONFIG)` and the `IVP::` targets (e.g. `IVP::helmivp`); see `.github/helm-libs-consumer`.
+
 ## Project Objectives and Philosophy
 
 * Platform Independence: The MOOS-IvP software typically runs on a dedicated computer for autonomy and sensing in the vehicle "payload" section.
