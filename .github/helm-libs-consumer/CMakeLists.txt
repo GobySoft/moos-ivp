@@ -7,5 +7,6 @@ project(helm_libs_consumer CXX)
 find_package(IVP CONFIG REQUIRED)
 
 add_executable(helm_libs_consumer main.cpp)
+target_compile_features(helm_libs_consumer PRIVATE cxx_std_17)
 target_link_libraries(helm_libs_consumer PRIVATE
-  IVP::helmivp IVP::ivpbuild IVP::ivpsolve IVP::ivpcore)
+  IVP::helmivp IVP::geodaid IVP::ivpbuild IVP::ivpsolve IVP::ivpcore IVP::logic)
