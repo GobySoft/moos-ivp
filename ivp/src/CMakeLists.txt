@@ -6,11 +6,6 @@ INCLUDE(CMakePackageConfigHelpers)
 
 SET(IVP_BUILD_HELM_LIBS_ONLY OFF CACHE BOOL
   "Build only lib_helmivp and the libraries it links, without MOOS, MOOSGeodesy, apps, or GUI.")
-OPTION(BUILD_SHARED_LIBS "Build shared libraries (only with IVP_BUILD_HELM_LIBS_ONLY)" OFF)
-IF(BUILD_SHARED_LIBS AND NOT IVP_BUILD_HELM_LIBS_ONLY)
-  # Only the helm libraries are checked to have no link cycles or undefined symbols
-  MESSAGE(FATAL_ERROR "BUILD_SHARED_LIBS is only supported with IVP_BUILD_HELM_LIBS_ONLY")
-ENDIF()
 IF(BUILD_SHARED_LIBS)
   # So the installed libraries find each other outside the linker's search path
   IF(APPLE)
@@ -268,7 +263,7 @@ SET(IVP_GUI_APPS
 # app_vzaicview      app_gzaicview
 )
 
-# lib_helmivp and every library it links, and lib_geodaid for contacts
+# lib_helmivp and every library it links, and lib_geodaid for ContactLedger
 SET(IVP_HELM_LIBS
   lib_helmivp        lib_behaviors       lib_behaviors-marine
   lib_behaviors-colregs                  lib_dep_behaviors
@@ -366,19 +361,7 @@ ENDIF()
 install(DIRECTORY ${IVP_LIB_DIRECTORY}/ DESTINATION lib)
 
 message("Include directory: ${IVP_INC_DIRECTORY}")
-IF(IVP_BUILD_HELM_LIBS_ONLY)
-  SET(INCLUDE_FILES "")
-  FOREACH(L ${IVP_LIBS_TO_BUILD})
-    file(GLOB L_HEADERS RELATIVE ${IVP_SOURCE_DIR} ${L}/*.h)
-    LIST(APPEND INCLUDE_FILES ${L_HEADERS})
-  ENDFOREACH()
-  # They include MOOS or MOOSGeodesy headers, which this build doesn't have
-  LIST(REMOVE_ITEM INCLUDE_FILES
-    lib_geometry/CurrentField.h      lib_genutil/MOOSAppRunnerThread.h
-    lib_genutil/MOOS_event.h         lib_genutil/Threadsafe_pipe.h)
-ELSE()
-  file(GLOB_RECURSE INCLUDE_FILES RELATIVE ${IVP_SOURCE_DIR} lib_*/*.h)
-ENDIF()
+file(GLOB_RECURSE INCLUDE_FILES RELATIVE ${IVP_SOURCE_DIR} lib_*/*.h)
 foreach(I ${INCLUDE_FILES})
   if(BUILD_LOCAL_FLTK OR (NOT ${I} MATCHES .*lib_fltk.*))
     get_filename_component(I_NAMEONLY ${I} NAME)

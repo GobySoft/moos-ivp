@@ -7,7 +7,9 @@ FILE(GLOB SRC
      ContactMgrV20.cpp
      ContactMgrV20_Info.cpp
      ContactRecord.cpp
+     CMAlert.cpp
      RangeMark.cpp
+     PlatformAlertRecord.cpp
      main.cpp
 )
 

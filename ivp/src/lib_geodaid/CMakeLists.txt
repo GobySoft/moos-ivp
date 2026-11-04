@@ -5,20 +5,17 @@
 
 SET(SRC
   ContactLedger.cpp
-  CMAlert.cpp
-  PlatformAlertRecord.cpp
 )
 
 SET(HEADERS
   ContactLedger.h
-  CMAlert.h
-  PlatformAlertRecord.h
 )
 
 # Build Library
 IVP_ADD_LIBRARY(geodaid ${SRC})
 TARGET_LINK_LIBRARIES(geodaid
-  PUBLIC bhvutil contacts geometry mbutil)
+  PUBLIC contacts
+  PRIVATE geometry mbutil)
 IF(NOT IVP_BUILD_HELM_LIBS_ONLY)
   TARGET_LINK_LIBRARIES(geodaid PUBLIC MOOSGeodesy::MOOSGeodesy)
   TARGET_COMPILE_DEFINITIONS(geodaid PUBLIC IVP_CONTACT_LEDGER_MOOS_GEODESY)
