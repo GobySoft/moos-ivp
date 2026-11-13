@@ -217,7 +217,7 @@ SET(IVP_NON_GUI_LIBS
   lib_ufield         lib_logutils        lib_mbutil
   lib_manifest       lib_marine_pid      lib_turngeo
   lib_geodaid        lib_survey          lib_dep_behaviors
-  lib_gen_poly
+  lib_gen_poly       lib_contactmgr
 )
 SET(IVP_GUI_LIBS
   lib_ipfview        lib_marineview
@@ -263,7 +263,8 @@ SET(IVP_GUI_APPS
 # app_vzaicview      app_gzaicview
 )
 
-# lib_helmivp and every library it links, and lib_geodaid for ContactLedger
+# lib_helmivp and every library it links, lib_geodaid for ContactLedger,
+# and lib_contactmgr for pContactMgrV20's alerts
 SET(IVP_HELM_LIBS
   lib_helmivp        lib_behaviors       lib_behaviors-marine
   lib_behaviors-colregs                  lib_dep_behaviors
@@ -271,6 +272,7 @@ SET(IVP_HELM_LIBS
   lib_ivpsolve       lib_logic           lib_geometry
   lib_contacts       lib_turngeo         lib_mbutil
   lib_genutil        lib_gen_poly        lib_geodaid
+  lib_contactmgr
 )
 
 # We also consider the below to be robot apps just in case needed

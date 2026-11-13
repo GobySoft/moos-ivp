@@ -7,9 +7,6 @@ FILE(GLOB SRC
      ContactMgrV20.cpp
      ContactMgrV20_Info.cpp
      ContactRecord.cpp
-     CMAlert.cpp
-     RangeMark.cpp
-     PlatformAlertRecord.cpp
      main.cpp
 )
 
@@ -26,6 +23,7 @@ endif (${WIN32})
 TARGET_LINK_LIBRARIES(pContactMgrV20
    ${MOOS_LIBRARIES}
    ${MOOSGeodesy_LIBRARIES}
+   contactmgr
    mbutil
    bhvutil
    apputil
